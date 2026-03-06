@@ -42,7 +42,7 @@ console = Console()
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "bot token")  # اقرأ التوكن من متغيرات البيئة
-ADMIN_ID = int(os.environ.get("ADMIN_ID", 7761577562))  # اقرأ المعرف من متغيرات البيئة
+ADMIN_ID = int(os.environ.get("ADMIN_ID", 6848455321))  # اقرأ المعرف من متغيرات البيئة
 bot = TeleBot(BOT_TOKEN)
 
 MESSAGES = [
