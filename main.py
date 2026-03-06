@@ -1,7 +1,7 @@
 import requests, os, psutil, sys, jwt, pickle, json, binascii, time, urllib3, xKEys, base64, datetime, re, socket, threading, http.client, ssl, gzip, asyncio, gc, random, signal
 from io import BytesIO
 from protobuf_decoder.protobuf_decoder import Parser
-from zakofadai import *  # تم تغيير الاسم
+from zakofadai import *
 from datetime import datetime, timedelta
 from google.protobuf.timestamp_pb2 import Timestamp
 from concurrent.futures import ThreadPoolExecutor
@@ -12,12 +12,37 @@ from rich.panel import Panel
 from rich.align import Align
 from telebot import TeleBot, types
 
+# ==================== هام جداً لـ Render Web Service ====================
+# هذا الكود يخلق خادم HTTP وهمي عشان Render يظن أن الخدمة ويب
+from flask import Flask
+import threading
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "ZAKARIA BOT is running! ✅"
+
+@app.route('/health')
+def health():
+    return "OK", 200
+
+def run_web_server():
+    """تشغيل خادم ويب وهمي على المنفذ الذي يوفره Render"""
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port, debug=False, threaded=True)
+
+# تشغيل خادم الويب في خيط منفصل
+web_thread = threading.Thread(target=run_web_server, daemon=True)
+web_thread.start()
+print("✅ Web server started for Render")
+# =========================================================================
 
 console = Console()
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-BOT_TOKEN = "BOT_TOKEN"  # ضع توكن بوتك هنا
-ADMIN_ID = ADMIN_ID # ضع معرفك هنا
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "bot token")  # اقرأ التوكن من متغيرات البيئة
+ADMIN_ID = int(os.environ.get("ADMIN_ID", 7761577562))  # اقرأ المعرف من متغيرات البيئة
 bot = TeleBot(BOT_TOKEN)
 
 MESSAGES = [
