@@ -9,4 +9,4 @@ urllib3
 protobuf-decoder
 pyTelegramBotAPI
 aiohttp
-asyncio
+flask==2.3.3
